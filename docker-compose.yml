@@ -1,0 +1,47 @@
+services:
+  api:
+    container_name: express-api
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+    networks:
+      - atividade-express-network
+      
+  db:
+    container_name: express-db
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db
+    networks:
+      - atividade-express-network
+    volumes: 
+     - "postgres_data:/var/lib/postgresql/data"
+
+  adminer:
+    container_name: express-adminer
+    image: adminer
+    ports:
+      - 8000:8000
+    networks:
+      - atividade-express-network
+
+networks:
+  atividade-express-network:
+    driver: bridge
+
+volumes: 
+  postgres_data:
