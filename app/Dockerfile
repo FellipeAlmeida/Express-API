@@ -2,9 +2,9 @@ FROM node
 
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json .
 RUN npm install
 
-COPY app/server.js .
+COPY . .
 
-CMD ["node", "server.js"]
+CMD ["node", "app/server.js"]
