@@ -7,4 +7,5 @@ RUN npm install
 
 COPY . .
 
-CMD ["node", "app/server.js"]
+# popula o banco e inicia o servidor
+CMD ["sh", "./start.sh"]

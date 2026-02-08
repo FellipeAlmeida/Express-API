@@ -4,25 +4,35 @@ import pool from '../database.js'
 
 const routers = Router() 
 
-routers.post('/login', (req, res) => {
-    const { usuario, senha } = req.body
+// ---------------------------------- LOGIN ----------------------------------
+routers.post('/login', async (req, res) => {
+    const { email, senha } = req.body
 
-    if (!usuario || !senha){
+    if (!email || !senha){
         res.status(400).json({erro: "Usuário e senha obrigatórios."})
     }
 
-    pool.query(`
-        CREATE TABLE IF NOT EXISTS users(id integer primary key, 
-        usuario varchar(100), 
-        senha varchar(100));`)
-    
-    const user = pool.query(`
-        INSERT INTO users(id, usuario, senha) 
-        VALUES(5, '${usuario}', '${senha}');`)
+    const user = await pool.query(`SELECT * FROM users WHERE email = '${email}' AND senha = '${senha}'`)
 
-        if (user){
-            return res.status(201).json({mensagem: "Usuário criado"})
-        }
+    if (!user){
+        res.status(401).json({erro: "Usuário ou senha inválidos."})
+    }
+
+    jwt.sign(
+        {email, senha}
+    )
+})
+
+// ---------------------------------- CRIAR USUÁRIO ----------------------------------
+routers.post('/criar', (req, res) => {
+    const { email, senha } = req.body
+
+    if (!email || !senha){
+        res.status(400).json({erro: "Email e senha obrigatórios."})
+    }
+
+    pool.query(`INSERT INTO users(email, senha) VALUES ('${email}', '${senha}')`)
+    return res.status(200).json({mensagem: "Usuário criado com sucesso!"})
 })
 
 export default routers
