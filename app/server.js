@@ -1,6 +1,8 @@
 import express from 'express'
 import userRoutes from './routers/users.routers.js'
+import dotenv from 'dotenv'
 
+dotenv.config()
 export const app = express()
 
 app.get('/', (req, res) => {
