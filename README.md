@@ -13,15 +13,15 @@ Trabalho final do segundo semestre do curso de Análise e Desenvolvimento de Sis
 
 ```
 Express-API/
-    app/
-        routers/
-            users.routers.js
-        database.js
-        Dockerfile
-        seed.js
-        server.js
-    config/
-        config.js
+    Backend/
+        app/
+            routers/
+                users.routers.js
+            database.js
+            Dockerfile
+            seed.js
+            server.js
+            config.js
     .env-example
     docker-compose.yml
     package.json

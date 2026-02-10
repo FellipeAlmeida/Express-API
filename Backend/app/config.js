@@ -3,5 +3,6 @@ export const env = {
     postgresPassword: process.env.POSTGRES_PASSWORD,
     postgresDB: process.env.POSTGRES_DB,
     postgresHost: process.env.POSTGRES_HOST,
+    secretKey: process.env.SECRET_KEY,
     port: process.env.PORT,
 }

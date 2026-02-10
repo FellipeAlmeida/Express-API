@@ -1,5 +1,5 @@
-echo "Iniciando seed..."
-node app/seed.js
+echo "Iniciando arquivo de seed..."
+node Backend/app/seed.js
 
 echo "Iniciando servidor..."
-node app/server.js
+node Backend/app/server.js
