@@ -3,15 +3,19 @@ name: Build and Deploy application
 on:
   push: 
     branches: [main]
-  workflow_dispacth:
+  workflow_dispatch:
 
 jobs:
   deploy:
     name: Deploy application 
     runs-on: ubuntu-latest
     steps:
-      name: Builda imagem
-      uses: docker compose up -d --build
+
+      - name: Checkout código
+      - uses: actions/checkout@v4
+
+      - name: Builda imagem
+      - run: docker compose up -d --build
       
-      name: Disparar deploy no render
-      uses: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+      - name: Disparar deploy no render
+      - run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
