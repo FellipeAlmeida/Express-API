@@ -1,11 +1,11 @@
-import pool from '../app/database.js'
+import pool from './database.js'
 
 async function conectaEPopulaBanco(){
     try {
 
         console.log("Conectado ao banco")
 
-        console.log("Populando banco...")
+        console.log("Criando tabelas do banco de dados...")
 
         await pool.query(`
         CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, 
@@ -30,7 +30,7 @@ async function conectaEPopulaBanco(){
         data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         usuario_id INTEGER NOT NULL REFERENCES users(id));`)
 
-        console.log("Banco populado!")
+        console.log("Tabelas criadas!")
 
     } catch (error){
         console.log(`Erro: ${error}, tentando novamente...`)

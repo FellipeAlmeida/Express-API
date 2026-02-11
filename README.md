@@ -13,6 +13,9 @@ Trabalho final do segundo semestre do curso de Análise e Desenvolvimento de Sis
 
 ```
 Express-API/
+    .github/
+        workflows/
+            deploy.yml
     Backend/
         app/
             routers/
@@ -48,13 +51,33 @@ SECRET_KEY=...
 POSTGRES_USER=...
 POSTGRES_PASSWORD=...
 POSTGRES_DB=...
-POSTGRES_HOST...
+POSTGRES_HOST=...
 PORT=...
 
 ps: pode definir as variaveis da forma que quiser!
 ```
 
 ### Comando docker
+
+```
+docker compose up -d --build
+```
+
+### Comando docker para derrubar
+
+```
+docker compose down
+```
+
+### Comando docker para apagar tudo (volumes, containers, networks etc)
+
+```
+docker rm -f $(docker ps -aq)
+docker volume rm $(docker volume ls -q)
+docker system prune -a --volumes
+```
+
+### Para recriar
 
 ```
 docker compose up -d --build

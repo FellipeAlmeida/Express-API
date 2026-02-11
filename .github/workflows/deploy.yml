@@ -1,0 +1,17 @@
+name: Build and Deploy application
+
+on:
+  push: 
+    branches: [main]
+  workflow_dispacth:
+
+jobs:
+  deploy:
+    name: Deploy application 
+    runs-on: ubuntu-latest
+    steps:
+      name: Builda imagem
+      uses: docker compose up -d --build
+      
+      name: Disparar deploy no render
+      uses: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
