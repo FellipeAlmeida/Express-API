@@ -17,7 +17,7 @@ jobs:
 
       # no docker compose usa o .env, então é necessário recriá-lo na máquina virtual do github
       - name: Criar .env 
-        uses:  |
+        run:  |
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
           echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
