@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     if: always() 
-    needs: [build-and-deploy]
+    needs: [Deploy application]
 
     steps:
 
