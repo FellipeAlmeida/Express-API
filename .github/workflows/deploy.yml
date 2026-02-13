@@ -29,3 +29,40 @@ jobs:
       # trigger 
       - name: Disparar deploy no render
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+  notificar telegram:
+    name: Notifica atualizações no telegram
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Notificar sucesso
+      if: sucess()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.BOT_ID }}
+        token: ${{ secrets.BOT_TOKEN }}
+        format: markdown
+        message: |
+          ✅ *Deploy realizado com sucesso!*
+          📦 Aplicação: *Express-API - Render*
+          🚀 Ambiente: ${{ github.ref == 'refs/heads/main' && 'Homolog' || 'Desenvolvimento' }}
+          👤 Autor: ${{ github.actor }}
+          🏷️ Versão: *${{ github.run_number }}*
+          🔄 Commit: [Clique aqui](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          📦 Deploy: [Clique aqui](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+    - name: Notificar erro
+      if: failure
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.BOT_ID }}
+        token: ${{ secrets.BOT_TOKEN }}
+        format: markdown
+        message: |
+            ❌ *Deploy falhou!*
+            📦 Aplicação: *Express-API - Render*
+            🚀 Ambiente: ${{ github.ref == 'refs/heads/main' && 'Homolog' || 'Desenvolvimento' }}
+            👤 Autor: ${{ github.actor }}
+            🏷️ Versão: ```${{ github.run_number }}```
+            🔄 Commit: [Clique aqui](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            📦 Deploy: [Clique aqui](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
