@@ -34,7 +34,7 @@ Express-API/
 
 ## Diagrama do Banco de Dados
 
-![alt text](image.png)
+![alt text](image-3.png)
 
 ## Como rodar o projeto
 
@@ -88,3 +88,8 @@ docker compose up -d --build
 Api: localhost:5000
 Adminer: localhost:8000
 ```
+
+## Adicionais para Estudo:
+
+### Faz o deploy e notifica no telegram
+![alt text](image-2.png)README.md
