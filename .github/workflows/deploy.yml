@@ -30,7 +30,7 @@ jobs:
       - name: Disparar deploy no render
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
 
-  notificar telegram:
+  notificar-telegram:
     name: Notifica atualizações no telegram
     runs-on: ubuntu-latest
     steps:
