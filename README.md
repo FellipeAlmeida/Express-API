@@ -92,4 +92,4 @@ Adminer: localhost:8000
 ## Adicionais para Estudo:
 
 ### Faz o deploy e notifica no telegram
-![alt text](image-2.png)README.md
+![alt text](image-2.png)
