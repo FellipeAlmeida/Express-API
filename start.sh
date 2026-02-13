@@ -1,5 +1,5 @@
-echo "Iniciando arquivo de seed..."
-node Backend/app/seed.js
+echo "Iniciando arquivo de migrations..."
+node Backend/app/migrations.js
 
 echo "Iniciando servidor..."
 node Backend/app/server.js

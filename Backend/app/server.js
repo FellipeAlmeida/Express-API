@@ -3,6 +3,8 @@ import userRoutes from './routers/users.routers.js'
 import productsRouters from './routers/products.routers.js'
 import dotenv from 'dotenv'
 
+const PORT = process.env.PORT || 5000
+
 dotenv.config()
 export const app = express()
 
@@ -14,6 +16,6 @@ app.use(express.json())
 app.use('/users', userRoutes)
 app.use('/products', productsRouters)
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log("servidor rodando na porta 5000")
 })
