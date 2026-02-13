@@ -2,7 +2,7 @@ name: Build and Deploy application
 
 on:
   push: 
-    branches: [add-CI]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,6 @@ jobs:
 
       - name: Builda imagem
         run: docker compose up -d --build
-      
+      # trigger 
       - name: Disparar deploy no render
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
