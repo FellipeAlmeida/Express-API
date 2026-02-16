@@ -4,5 +4,5 @@ export const env = {
     postgresDB: process.env.POSTGRES_DB,
     postgresHost: process.env.POSTGRES_HOST,
     secretKey: process.env.SECRET_KEY,
-    port: process.env.PORT,
+    port: process.env.PORT_DB,
 }

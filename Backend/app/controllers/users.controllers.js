@@ -3,8 +3,12 @@ import { env } from '../config.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+// --------------------------------------------------- LOGIN ---------------------------------------------------
+
 export async function login(req, res){
     try {
+
+        // verificações 
         const { email, senha } = req.body
         const agora = new Date()
 
@@ -27,6 +31,7 @@ export async function login(req, res){
 
         const senhaValida = await bcrypt.compare(senha, user.senha)
 
+        // lógica de bloqueio
         if (!senhaValida){
 
             const tentativasLogin = await pool.query(`UPDATE users SET tentativas_login = tentativas_login + 1 WHERE email = '${email}' RETURNING tentativas_login`)  
@@ -49,6 +54,7 @@ export async function login(req, res){
 
         await pool.query(`UPDATE users SET tempo_bloqueado = NULL, tentativas_login = 0 WHERE email = '${email}'`)  
 
+        // gera token
         const token = jwt.sign(
             {id: user.id, email: user.email, perfil: user.perfil},
 
@@ -65,6 +71,8 @@ export async function login(req, res){
     }
 }
 
+// --------------------------------------------------- CRIA ---------------------------------------------------
+
 export async function criaUsuario(req, res){
     try {
         const { email, senha, perfil } = req.body
@@ -79,6 +87,46 @@ export async function criaUsuario(req, res){
         return res.status(201).json({mensagem: "Usuário criado com sucesso!"})
     } catch (error) {
         console.log(`Erro: ${error}`)
+        return res.status(500).json({erro: error})
+    }
+}
+
+// --------------------------------------------------- LISTA ---------------------------------------------------
+
+export async function listaUsuario(req, res){
+    try {
+        const usuarios = await pool.query("SELECT * FROM users")
+        return res.status(200).json({mensagem: `Usuários retornados com sucesso:`, dados: usuarios.rows})
+    } catch (error){
+        return res.status(500).json({erro: error})
+    }
+}
+
+// --------------------------------------------------- EDITA ---------------------------------------------------
+
+export async function editaUsuario(req, res){
+    try{
+        const { perfil } = req.body
+        const id = req.params.id
+                
+        await pool.query(`UPDATE users SET perfil = '${perfil}' WHERE id = ${id}`)
+        
+        return res.status(200).json({mensagem: "Usuário atualizado com sucesso!"})
+
+    } catch (error) {
+        return res.status(500).json({erro: error})
+    }
+}
+
+// --------------------------------------------------- USUARIO ATUAL ---------------------------------------------------
+
+export async function retornaUsuarioAtual(req, res){
+    try {
+        const auth = req.headers.authorization
+        const decoded = jwt.verify(auth, env.secretKey)
+
+        return res.status(200).json({mensagem: "Usuário atual retonado com sucesso!", dados: decoded})
+    } catch (error) {
         return res.status(500).json({erro: error})
     }
 }
