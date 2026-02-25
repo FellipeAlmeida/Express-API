@@ -3,7 +3,7 @@ services:
     container_name: express-api
     build:
       context: .
-      dockerfile: Backend/app/Dockerfile
+      dockerfile: Backend/Dockerfile
     env_file:
       - .env
     ports:

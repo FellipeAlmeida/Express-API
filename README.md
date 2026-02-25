@@ -15,21 +15,26 @@ Trabalho final do segundo semestre do curso de Análise e Desenvolvimento de Sis
 Express-API/
     .github/
         workflows/
-            deploy.yml
     Backend/
         app/
-            routers/
-                users.routers.js
-            database.js
-            Dockerfile
-            seed.js
+            config/
+            controllers/
+            database/
+            middlewares/
+            routes/
+            services/
+            migrations.js
             server.js
-            config.js
+        Dockerfile
+        package-lock.json
+        package.json
+        start.sh
+    Frontend/
+        ...
     .env-example
+    .gitignore
     docker-compose.yml
-    package.json
     README.md
-    start.sh
 ```
 
 ## Diagrama do Banco de Dados
@@ -88,6 +93,32 @@ docker compose up -d --build
 Api: localhost:5000
 Adminer: localhost:8000
 ```
+
+# Funcionalidades
+- Autenticação e autorização com tokens JWT
+- Sistema de perfis de usuários (admin, estoquista, consultor) 
+- Controle de tentativas de login
+- Bloqueio automático por tentativas inválidas
+- Cadastro de usuários
+- Registro de movimentações (entrada e saida)
+- Registro de produtos
+- Edição de Produtos e Usuários
+- Listagem de Produtos, Usuários e movimentações
+- Busca de Produtos por id
+- Deleção de produtos por id
+- Geração de relatório
+
+# Arquitetura
+O projeto segue padrão em camadas:
+
+## Backend
+
+- Rotas -> Recebem requisições
+- Controllers -> Trata requisições 
+- Services -> Regras de negócio
+- Database -> Conexão com o banco
+
+## Frontend
 
 ## Adicionais para Estudo:
 
