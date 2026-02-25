@@ -1,4 +1,4 @@
-import pool from './database.js'
+import pool from './database/database.js'
 
 async function conectaEPopulaBanco(){
     try {
@@ -30,7 +30,15 @@ async function conectaEPopulaBanco(){
         data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         usuario_id INTEGER NOT NULL REFERENCES users(id));`)
 
-        console.log("Tabelas criadas!")
+        await pool.query(`INSERT INTO users (email, senha, perfil)
+        VALUES (
+            'admin@email.com',
+            '$2b$10$EoGrO4pC8d2wu0yNW2EJgeDZMkPz3HUISiGn0yAvcbBU06b.y2TWq',
+            'admin'
+        )
+        ON CONFLICT (email) DO NOTHING`)
+
+        console.log("Tabelas criadas e banco populado!")
 
     } catch (error){
         console.log(`Erro: ${error}, tentando novamente...`)

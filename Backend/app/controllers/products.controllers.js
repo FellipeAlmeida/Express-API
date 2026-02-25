@@ -1,27 +1,14 @@
-import pool from '../database.js'
-import { env } from '../config.js'
+import pool from '../database/database.js'
+import { env } from '../config/config.js'
 import jwt from 'jsonwebtoken'
+import { criaProdutoService } from '../services/products.services.js'
 
 // --------------------------------------------------- CRIA ---------------------------------------------------
 
 export async function criaProduto(req, res){
     try {
         const {nome, quantidade, minimo} = req.body 
-
-        if (quantidade < 0){
-            return res.status(401).json({erro: "Não pode registrar produtos com quantidades negativas."})
-        }
-
-        if (!nome || !quantidade){
-            return res.status(401).json({erro: "Nome e quantidade são obrigatórios."})
-        }
-
-        if (!minimo){
-            pool.query(`INSERT INTO products(nome, quantidade) VALUES('${nome}', '${quantidade}')`)
-            return res.status(200).json({mensagem: "Produto criado com sucesso!"})
-        }
-
-        pool.query(`INSERT INTO products(nome, quantidade, minimo) VALUES('${nome}', '${quantidade}', '${minimo}')`)
+        await criaProdutoService(req.body)
         return res.status(200).json({mensagem: "Produto criado com sucesso!"})    
     } catch (error) {
         return res.status(500).json({erro: error})
@@ -75,7 +62,9 @@ export async function editaProduto(req, res){
         await pool.query(`UPDATE products SET nome = '${nome}', minimo = '${minimo}' WHERE id = ${id}`)
         return res.status(200).json({mensagem: "Produto atualizado com sucesso!"})
     } catch (error){
-        return res.status(500).json({erro: error})
+        return res.status(500).json({
+            erro: error.message
+        })    
     }
 }
 

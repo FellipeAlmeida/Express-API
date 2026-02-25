@@ -1,7 +1,7 @@
 import express from 'express'
-import userRoutes from './routers/users.routers.js'
-import productsRouters from './routers/products.routers.js'
-import movementsRouters from '../app/routers/movements.routers.js'
+import userRoutes from './routes/users.routes.js'
+import productsRouters from './routes/products.routes.js'
+import movementsRouters from '../app/routes/movements.routes.js'
 import dotenv from 'dotenv'
 
 const PORT = process.env.PORT || 5000

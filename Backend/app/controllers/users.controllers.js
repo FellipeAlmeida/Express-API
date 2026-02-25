@@ -1,5 +1,5 @@
-import pool from '../database.js'
-import { env } from '../config.js'
+import pool from '../database/database.js'
+import { env } from '../config/config.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
