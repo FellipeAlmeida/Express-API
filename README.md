@@ -31,10 +31,11 @@ Express-API/
         package.json
         start.sh
     Frontend/
-        css/
+        pages/
+        scripts/
+        styles/
         Dockerfile
         index.html
-        index.js
     .env-example
     .gitignore
     docker-compose.yml
