@@ -38,6 +38,26 @@ async function conectaEPopulaBanco(){
         )
         ON CONFLICT (email) DO NOTHING`)
 
+        await pool.query(`INSERT INTO users (email, senha, perfil)
+        VALUES (
+            'estoquista@email.com',
+            '$2b$10$EoGrO4pC8d2wu0yNW2EJgeDZMkPz3HUISiGn0yAvcbBU06b.y2TWq',
+            'estoquista'
+        )
+        ON CONFLICT (email) DO NOTHING`)
+
+        await pool.query(`INSERT INTO users (email, senha, perfil)
+        VALUES (
+            'consultor@email.com',
+            '$2b$10$EoGrO4pC8d2wu0yNW2EJgeDZMkPz3HUISiGn0yAvcbBU06b.y2TWq',
+            'consultor'
+        )
+        ON CONFLICT (email) DO NOTHING`)
+
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Arroz', 100, 50)`)
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Macarrão', 40, 10)`)
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Feijão carioca', 200, 70)`)
+
         console.log("Tabelas criadas e banco populado!")
 
     } catch (error){

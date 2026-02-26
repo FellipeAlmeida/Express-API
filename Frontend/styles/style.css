@@ -1,0 +1,89 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #181A1B;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 384px;
+    height: 638px;
+    background-color: #1C1E1F;
+    padding: 32px;
+    border-radius: 15px;
+}
+
+.textos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.textos h1 {
+    margin-bottom: 5px;
+    font-size: 30px;
+}
+
+.email, .senha {
+    width: 384px;
+    height: 25px;
+    border-radius: 10px;
+    border: 2px solid #3B4043;
+    background-color: #1C1E1F;
+    padding: 10px;
+}
+
+.input-email {
+    margin-bottom: 30px;
+}
+
+.input-email p, .input-senha p {
+    margin-bottom: 10px;
+}
+
+.entrar {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    justify-content: center;
+    width: 348px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: medium;
+    background-color: #232627;
+    transition: 1s;
+}
+
+.entrar:hover {
+    transition: 1s;
+    background-color: #383d3f;
+    cursor: pointer;
+}
+
+.entrar:active {
+    background-color: #52595c;
+}
+
+.cadastrar {
+    color: rgb(23, 101, 190);
+    cursor: pointer;
+}
+
+.cadastrar:hover {
+    text-decoration: underline;
+}
+
+.mensagens {
+    display: none;
+    margin-top: 10px;
+}

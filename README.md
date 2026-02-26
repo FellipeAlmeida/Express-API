@@ -1,13 +1,14 @@
 # Sistema de Controle de Estoque
 
-Trabalho final do segundo semestre do curso de Análise e Desenvolvimento de Sistemas.
+Sistema de Controle de Estoque de um supermercado envolvendo todas as tecnologias que um sistema web precisa.
 
-## Tecnologias
+## Ferramentas
 
 - **Node.js** (*Backend*)
 - **Express** (*Framework API*)
 - **PostgreSQL** (*Banco de dados*)
 - **JWT** (*Autenticação e Controle de acesso*)
+- **Github Actions** (*Integração contínua*)
 
 ## Organização do Projeto
 
@@ -30,7 +31,10 @@ Express-API/
         package.json
         start.sh
     Frontend/
-        ...
+        css/
+        Dockerfile
+        index.html
+        index.js
     .env-example
     .gitignore
     docker-compose.yml
@@ -120,7 +124,13 @@ O projeto segue padrão em camadas:
 
 ## Frontend
 
-## Adicionais para Estudo:
+- Pages -> Interfaces
+- Scripts -> Lógica e integração com API
+- Styles -> Estilização
 
+
+# Integração Contínua:
+
+## Github Actions
 ### Faz o deploy e notifica no telegram
-![alt text](image-2.png)
+![alt text](image.png)

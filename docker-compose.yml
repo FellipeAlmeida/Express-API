@@ -47,6 +47,20 @@ services:
     networks:
       - atividade-express-network
 
+  front:
+    container_name: front
+    build: 
+      context: .
+      dockerfile: Frontend/Dockerfile
+    image: nginx
+    ports: 
+    - 5500:80
+    networks:
+      - atividade-express-network
+    volumes: 
+     - "postgres_data:/var/lib/postgresql/data"
+
+
 networks:
   atividade-express-network:
     driver: bridge

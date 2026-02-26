@@ -13,7 +13,7 @@ export async function login(req, res){
         const agora = new Date()
 
         if (!email || !senha){
-            return res.status(400).json({erro: "Usuário, senha e perfil obrigatórios."})
+            return res.status(400).json({erro: "Usuário e senha obrigatórios."})
         }
 
         const users = await pool.query(`SELECT * FROM users WHERE email = '${email}'`)
@@ -29,6 +29,7 @@ export async function login(req, res){
             return res.status(403).json({erro: `Conta bloqueada até ${user.tempo_bloqueado}`})
         }
 
+        // compara senha do usuario hasheada com a senha do banco
         const senhaValida = await bcrypt.compare(senha, user.senha)
 
         // lógica de bloqueio
@@ -47,7 +48,7 @@ export async function login(req, res){
 
                 await pool.query(`UPDATE users SET tempo_bloqueado = $1 WHERE email = $2`, [bloqueioAte, email])
 
-                return res.status(403).json({erro: `Conta bloqueada por ${bloqueioEmMinutos} segundos.`})
+                return res.status(403).json({erro: `Conta bloqueada por ${bloqueioEmMinutos} minutos.`})
             }
             return res.status(401).json({erro: `Credenciais inválidas.` })
         }

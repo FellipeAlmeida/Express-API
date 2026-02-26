@@ -3,6 +3,7 @@ import userRoutes from './routes/users.routes.js'
 import productsRouters from './routes/products.routes.js'
 import movementsRouters from '../app/routes/movements.routes.js'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 const PORT = process.env.PORT || 5000
 
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
     res.send("Servidor express rodando!")
 })
 
+app.use(cors())
 app.use(express.json())
 app.use('/users', userRoutes)
 app.use('/products', productsRouters)
