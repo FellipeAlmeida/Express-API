@@ -18,7 +18,7 @@ async function conectaEPopulaBanco(){
 
         await pool.query(`
         CREATE TABLE IF NOT EXISTS products(id SERIAL PRIMARY KEY, 
-        nome VARCHAR(100) NOT NULL, 
+        nome VARCHAR(100) UNIQUE NOT NULL, 
         quantidade INTEGER NOT NULL,
         minimo INTEGER NOT NULL DEFAULT 0);`)
 
@@ -54,9 +54,9 @@ async function conectaEPopulaBanco(){
         )
         ON CONFLICT (email) DO NOTHING`)
 
-        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Arroz', 100, 50)`)
-        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Macarrão', 40, 10)`)
-        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Feijão carioca', 200, 70)`)
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Arroz', 100, 50) ON CONFLICT (nome) DO NOTHING`)
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Macarrão', 40, 10) ON CONFLICT (nome) DO NOTHING`)
+        await pool.query(`INSERT INTO products (nome, quantidade, minimo) VALUES('Feijão carioca', 200, 70) ON CONFLICT (nome) DO NOTHING`)
 
         console.log("Tabelas criadas e banco populado!")
 

@@ -2,73 +2,20 @@ import pool from '../database/database.js'
 import { env } from '../config/config.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { loginService } from '../services/users.services.js'
 
 // --------------------------------------------------- LOGIN ---------------------------------------------------
 
 export async function login(req, res){
     try {
-
-        // verificações 
         const { email, senha } = req.body
-        const agora = new Date()
 
-        if (!email || !senha){
-            return res.status(400).json({erro: "Usuário e senha obrigatórios."})
-        }
-
-        const users = await pool.query(`SELECT * FROM users WHERE email = '${email}'`)
-
-        if (users.rows.length === 0){
-            return res.status(401).json({erro: "Usuário ou senha inválidos."})
-        }
-
-        const user = users.rows[0]
-
-        // verifica se ta bloqueado
-        if (user.tempo_bloqueado && user.tempo_bloqueado > agora){
-            return res.status(403).json({erro: `Conta bloqueada até ${user.tempo_bloqueado}`})
-        }
-
-        // compara senha do usuario hasheada com a senha do banco
-        const senhaValida = await bcrypt.compare(senha, user.senha)
-
-        // lógica de bloqueio
-        if (!senhaValida){
-
-            const tentativasLogin = await pool.query(`UPDATE users SET tentativas_login = tentativas_login + 1 WHERE email = '${email}' RETURNING tentativas_login`)  
-            const tentativas = tentativasLogin.rows[0].tentativas_login
-
-            if (tentativas > 3){
-                const vezesBloqueado = await pool.query(`UPDATE users SET vezes_bloqueado = vezes_bloqueado + 1 WHERE email = '${email}' RETURNING vezes_bloqueado`)  
-                const bloqueado = vezesBloqueado.rows[0].vezes_bloqueado
-
-                const bloqueioAte = new Date(Date.now() + (30000 * bloqueado))
-                const bloqueioEmMilisegundos = 30000 * bloqueado
-                const bloqueioEmMinutos = (bloqueioEmMilisegundos / 1000) / 60
-
-                await pool.query(`UPDATE users SET tempo_bloqueado = $1 WHERE email = $2`, [bloqueioAte, email])
-
-                return res.status(403).json({erro: `Conta bloqueada por ${bloqueioEmMinutos} minutos.`})
-            }
-            return res.status(401).json({erro: `Credenciais inválidas.` })
-        }
-
-        await pool.query(`UPDATE users SET tempo_bloqueado = NULL, tentativas_login = 0 WHERE email = '${email}'`)  
-
-        // gera token
-        const token = jwt.sign(
-            {id: user.id, email: user.email, perfil: user.perfil},
-
-            env.secretKey,
-
-            {expiresIn: "1h"}
-        )
-
+        const token = await loginService(req.body)
         return res.status(200).json({mensagem: "Login realizado com sucesso!", token})   
 
     } catch (error){
         console.log(`Erro: ${error}`)
-        return res.status(500).json({erro: error})
+        return res.status(400).json({erro: error.message})
     }
 }
 

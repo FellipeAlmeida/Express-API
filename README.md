@@ -1,6 +1,6 @@
 # Sistema de Controle de Estoque
 
-Sistema de Controle de Estoque de um supermercado envolvendo todas as tecnologias que um sistema web precisa.
+Sistema de Controle de Estoque envolvendo todas as tecnologias que um sistema web precisa.
 
 ## Ferramentas
 
@@ -9,6 +9,7 @@ Sistema de Controle de Estoque de um supermercado envolvendo todas as tecnologia
 - **PostgreSQL** (*Banco de dados*)
 - **JWT** (*Autenticação e Controle de acesso*)
 - **Github Actions** (*Integração contínua*)
+- **Docker** (*Conteinarização*)
 
 ## Organização do Projeto
 
@@ -48,6 +49,8 @@ Express-API/
 
 ## Como rodar o projeto
 
+Certifique-se de ter o Docker instalado!
+
 ### Clonar projeto 
 
 ```
@@ -57,21 +60,23 @@ git clone <url do projeto>
 ### Criar .env na raiz do projeto
 
 ```
-SECRET_KEY=...
-POSTGRES_USER=...
-POSTGRES_PASSWORD=...
-POSTGRES_DB=...
-POSTGRES_HOST=...
-PORT=...
-
-ps: pode definir as variaveis da forma que quiser!
+SECRET_KEY='sua_chave_secreta'
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=1234
+POSTGRES_DB=db
+POSTGRES_HOST=db
+PORT_DB=5432 
 ```
 
-### Comando docker
+### Comando docker para rodar o projeto
 
 ```
 docker compose up -d --build
 ```
+
+Pronto! O projeto já está rodando na sua máquina.
+
+## Comandos Docker
 
 ### Comando docker para derrubar
 
@@ -97,9 +102,10 @@ docker compose up -d --build
 ```
 Api: localhost:5000
 Adminer: localhost:8000
+Front: localhost:5500
 ```
 
-# Funcionalidades
+## Funcionalidades
 - Autenticação e autorização com tokens JWT
 - Sistema de perfis de usuários (admin, estoquista, consultor) 
 - Controle de tentativas de login
@@ -113,25 +119,50 @@ Adminer: localhost:8000
 - Deleção de produtos por id
 - Geração de relatório
 
-# Arquitetura
+## Arquitetura
 O projeto segue padrão em camadas:
 
-## Backend
+### Backend
 
 - Rotas -> Recebem requisições
 - Controllers -> Trata requisições 
 - Services -> Regras de negócio
 - Database -> Conexão com o banco
 
-## Frontend
+### Frontend
 
 - Pages -> Interfaces
 - Scripts -> Lógica e integração com API
 - Styles -> Estilização
 
 
-# Integração Contínua:
+## Integração Contínua:
 
-## Github Actions
-### Faz o deploy e notifica no telegram
+### Github Actions
+#### Faz o deploy e notifica no telegram
 ![alt text](image.png)
+
+## Dados do banco
+
+O banco já começa com alguns dados populados. Sendo eles um usuário de cada perfil (admin, estoquista, consultor) e 3 produtos.
+
+### Usuário 1 - Admin
+
+Credenciais:
+
+- Email: admin@email.com
+- Senha: 123
+
+### Usuário 2 - Consultor
+
+Credenciais:
+
+- Email: consultor@email.com
+- Senha: 123
+
+### Usuário 3 - Estoquista
+
+Credenciais:
+
+- Email: estoquista@email.com
+- Senha: 123

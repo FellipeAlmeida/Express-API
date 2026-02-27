@@ -1,7 +1,6 @@
 import pool from '../database/database.js'
-import { env } from '../config/config.js'
-import jwt from 'jsonwebtoken'
 import { criaProdutoService } from '../services/products.services.js'
+import { editaProdutoService } from '../services/products.services.js'
 
 // --------------------------------------------------- CRIA ---------------------------------------------------
 
@@ -10,10 +9,9 @@ export async function criaProduto(req, res){
         const {nome, quantidade, minimo} = req.body 
         await criaProdutoService(req.body)
         return res.status(200).json({mensagem: "Produto criado com sucesso!"})    
-    } catch (error) {
-        return res.status(500).json({erro: error})
+    } catch (error){
+        return res.status(500).json({erro: error.message})
     }
-    
 }
 
 // --------------------------------------------------- LISTA ---------------------------------------------------
@@ -22,10 +20,9 @@ export async function listaProduto(req, res){
     try{ 
         const produtos = await pool.query("SELECT * FROM products")
         return res.status(200).json({mensagem: "Produtos retornados com sucesso!", dados: produtos.rows})
-    } catch (error) {
-        return res.status(500).json({erro: error})
+    } catch (error){
+        return res.status(500).json({erro: error.message})
     }
-
 }
 
 // --------------------------------------------------- BUSCA ---------------------------------------------------
@@ -38,7 +35,7 @@ export async function buscaProduto(req, res){
 
         return res.status(200).json({message: "Produto retornado com sucesso!", dados: produtos.rows[0]})
     } catch (error){
-        return res.status(500).json({erro: error})
+        return res.status(500).json({erro: error.message})
     }
 }
 
@@ -49,22 +46,10 @@ export async function editaProduto(req, res){
         const { nome, minimo } = req.body
         const id = req.params.id
 
-        if (!minimo){
-            await pool.query(`UPDATE products SET nome = '${nome}' WHERE id = ${id}`)
-            return res.status(200).json({mensagem: "Produto atualizado com sucesso!"})
-        }
-
-        if (!nome){
-            await pool.query(`UPDATE products SET minimo = '${minimo}' WHERE id = ${id}`)
-            return res.status(200).json({mensagem: "Produto atualizado com sucesso!"})
-        }
-
-        await pool.query(`UPDATE products SET nome = '${nome}', minimo = '${minimo}' WHERE id = ${id}`)
+        await editaProdutoService(req.body, id)
         return res.status(200).json({mensagem: "Produto atualizado com sucesso!"})
     } catch (error){
-        return res.status(500).json({
-            erro: error.message
-        })    
+        return res.status(500).json({erro: error.message})
     }
 }
 
@@ -77,13 +62,17 @@ export async function deletaProduto(req, res){
     await pool.query(`DELETE from products WHERE id = ${id}`)
     return res.status(200).json({mensagem: "Produto deletado com sucesso!"})
     } catch (error){
-        return res.status(500).json({erro: error})
+        return res.status(500).json({erro: error.message})
     }
 }
 
 // --------------------------------------------------- RELATORIO DE ALERTA BAIXO ESTOQUE ---------------------------------------------------
 
 export async function alertaBaixoEstoque(req, res){
-    const produtos = await pool.query('SELECT * FROM products WHERE quantidade <= minimo')
-    return res.status(200).json({mensagem: "Produtos retornados com sucesso!", dados: produtos.rows})
+    try {
+        const produtos = await pool.query('SELECT * FROM products WHERE quantidade <= minimo')
+        return res.status(200).json({mensagem: "Produtos retornados com sucesso!", dados: produtos.rows})
+    } catch (error){
+        return res.status(500).json({erro: error.message})
+    }
 }
