@@ -166,3 +166,320 @@ Credenciais:
 
 - Email: estoquista@email.com
 - Senha: 123
+
+## Todas as rotas 
+
+### 🔐 AUTENTICAÇÃO
+
+Algumas rotas podem exigir token JWT no header:
+
+```
+Authorization: SEU_TOKEN_AQUI
+```
+
+---
+
+### 👤 ROTAS DE USUÁRIOS
+
+## 🔑 Login
+
+### POST `/users/login`
+
+Realiza autenticação do usuário.
+
+### Body:
+```json
+{
+  "email": "admin@email.com",
+  "senha": "123"
+}
+```
+
+### Resposta de sucesso:
+```json
+{
+  "mensagem": "Login realizado com sucesso!",
+  "token": "jwt_token_aqui"
+}
+```
+
+---
+
+### ➕ Criar Usuário
+
+### POST `/users/criar`
+
+### Body:
+```json
+{
+  "email": "user@email.com",
+  "senha": "123456",
+  "perfil": "admin"
+}
+```
+
+### Resposta:
+```json
+{
+  "mensagem": "Usuário criado com sucesso!"
+}
+```
+
+---
+
+## 📋 Listar Usuários
+
+### GET `/users/listar`
+
+### Resposta:
+```json
+{
+  "mensagem": "Usuários retornados com sucesso:",
+  "dados": [
+    {
+      "id": 1,
+      "email": "admin@email.com",
+      "perfil": "admin"
+    }
+  ]
+}
+```
+
+---
+
+## ✏️ Editar Usuário
+
+### PUT `/users/editar/:id/perfil`
+
+### Body:
+```json
+{
+  "perfil": "estoquista"
+}
+```
+
+---
+
+## 👤 Usuário Atual
+
+### GET `/users/me`
+
+Necessário token no header.
+
+### Resposta:
+```json
+{
+  "mensagem": "Usuário atual retonado com sucesso!",
+  "dados": {
+    "id": 1,
+    "email": "admin@email.com",
+    "perfil": "admin"
+  }
+}
+```
+
+---
+
+# 📦 ROTAS DE PRODUTOS
+
+## ➕ Criar Produto
+
+### POST `/products/criar`
+
+### Body:
+```json
+{
+  "nome": "Arroz",
+  "quantidade": 10,
+  "minimo": 3
+}
+```
+
+### Resposta:
+```json
+{
+  "mensagem": "Produto criado com sucesso!"
+}
+```
+
+---
+
+## 📋 Listar Produtos
+
+### GET `/products/listar`
+
+### Resposta:
+```json
+{
+  "mensagem": "Produtos retornados com sucesso!",
+  "dados": [
+    {
+      "id": 1,
+      "nome": "Teclado",
+      "quantidade": 10,
+      "minimo": 3
+    }
+  ]
+}
+```
+
+---
+
+## 🔎 Buscar Produto por ID
+
+### GET `/products/buscar/:id`
+
+### Resposta:
+```json
+{
+  "message": "Produto retornado com sucesso!",
+  "dados": {
+    "id": 1,
+    "nome": "Teclado",
+    "quantidade": 10,
+    "minimo": 3
+  }
+}
+```
+
+---
+
+## ✏️ Editar Produto
+
+### PUT `/products/editar/:id`
+
+### Body:
+```json
+{
+  "nome": "Feijão",
+  "minimo": 5
+}
+```
+
+---
+
+## ❌ Deletar Produto
+
+### DELETE `/products/deletar/:id`
+
+### Resposta:
+```json
+{
+  "mensagem": "Produto deletado com sucesso!"
+}
+```
+
+---
+
+## ⚠️ Relatório de Baixo Estoque
+
+Retorna produtos onde `quantidade <= minimo`
+
+### GET `/products/relatorios/baixo-estoque`
+
+### Resposta:
+```json
+{
+  "mensagem": "Produtos retornados com sucesso!",
+  "dados": [
+    {
+      "id": 2,
+      "nome": "Arroz",
+      "quantidade": 2,
+      "minimo": 5
+    }
+  ]
+}
+```
+
+---
+
+# 🔄 ROTAS DE MOVIMENTAÇÕES
+
+## 📥 Criar Movimentação de Entrada
+
+### POST `/movements/entrada`
+
+### Body:
+```json
+{
+  "produto_id": 1,
+  "tipo": "entrada",
+  "quantidade": 5,
+  "data_hora": "2026-02-28 10:00:00",
+  "usuario_id": 1
+}
+```
+
+### Resposta:
+```json
+{
+  "mensagem": "Movimentação de entrada criada com sucesso!"
+}
+```
+
+---
+
+## 📤 Criar Movimentação de Saída
+
+### POST `/movements/saida`
+
+### Body:
+```json
+{
+  "produto_id": 1,
+  "tipo": "saida",
+  "quantidade": 3,
+  "data_hora": "2026-02-28 11:00:00",
+  "usuario_id": 1
+}
+```
+
+### Resposta:
+```json
+{
+  "mensagem": "Movimentação de saida criada com sucesso!"
+}
+```
+
+---
+
+## 📋 Listar Movimentações
+
+### GET `/movements/listar`
+
+### Resposta:
+```json
+{
+  "mensagem": "Movimentações retornadas com sucesso!",
+  "dados": [
+    {
+      "id": 1,
+      "produto_id": 1,
+      "tipo": "entrada",
+      "quantidade": 5,
+      "data_hora": "2026-02-28 10:00:00",
+      "usuario_id": 1
+    }
+  ]
+}
+```
+
+---
+
+# 🗂 Estrutura de Perfis e Permissões
+
+| Ação | Admin | Estoquista | Consultor |
+|------|-------|------------|-----------|
+| Criar usuário | ✅ | ❌ | ❌ |
+| Listar usuários | ✅ | ❌ | ❌ |
+| Editar usuário | ✅ | ❌ | ❌ |
+| Criar produto | ✅ | ✅ | ❌ |
+| Editar produto | ✅ | ✅ | ❌ |
+| Deletar produto | ✅ | ❌ | ❌ |
+| Listar produtos | ✅ | ✅ | ✅ |
+| Relatório estoque baixo | ✅ | ✅ | ✅ |
+| Criar movimentação | ✅ | ✅ | ❌ |
+| Listar movimentações | ✅ | ✅ | ✅ |
+
+---
