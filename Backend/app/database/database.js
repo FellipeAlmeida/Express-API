@@ -21,6 +21,9 @@ if (process.env.DATABASE_URL) {
     }
 }
 
+console.log("DATABASE_URL:", process.env.DATABASE_URL)
+console.log("POSTGRES_HOST:", process.env.POSTGRES_HOST)
+
 let pool = new Pool(config)
 
 export default pool
